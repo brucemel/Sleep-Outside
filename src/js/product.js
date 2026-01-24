@@ -1,23 +1,20 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getParam } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
+import ProductDetails from "./ProductDetails.mjs";
 
+// Get the product ID from the URL parameter
+// Example: if URL is "index.html?product=880RR", productId will be "880RR"
+const productId = getParam("product");
+
+// Create an instance of ProductData to fetch product information
+// Pass 'tents' as the category to look in the tents.json file
 const dataSource = new ProductData("tents");
 
-function addProductToCart(product) {
-  // Get existing cart from localStorage or initialize empty array
-  let cart = getLocalStorage("so-cart") || [];
-  // Add the new product to the cart array
-  cart.push(product);
-  // Save the updated cart back to localStorage
-  setLocalStorage("so-cart", cart);
-}
-// add to cart button event handler
-async function addToCartHandler(e) {
-  const product = await dataSource.findProductById(e.target.dataset.id);
-  addProductToCart(product);
-}
+// Create an instance of ProductDetails with the productId and dataSource
+const product = new ProductDetails(productId, dataSource);
 
-// add listener to Add to Cart button
-document
-  .getElementById("addToCart")
-  .addEventListener("click", addToCartHandler);
+// Initialize the product page - this will:
+// 1. Fetch the product data
+// 2. Render the product details to the page
+// 3. Set up the Add to Cart button
+product.init();
