@@ -1,14 +1,17 @@
-import { getParam } from "./utils.mjs";
+import { getParam, loadHeaderFooter } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 import ProductDetails from "./ProductDetails.mjs";
+
+// Load the header and footer
+loadHeaderFooter();
 
 // Get the product ID from the URL parameter
 // Example: if URL is "index.html?product=880RR", productId will be "880RR"
 const productId = getParam("product");
 
 // Create an instance of ProductData to fetch product information
-// Pass 'tents' as the category to look in the tents.json file
-const dataSource = new ProductData("tents");
+// The API handles product lookup by ID directly
+const dataSource = new ProductData();
 
 // Create an instance of ProductDetails with the productId and dataSource
 const product = new ProductDetails(productId, dataSource);
